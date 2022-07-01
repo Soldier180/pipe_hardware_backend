@@ -13,6 +13,7 @@ config.read('config.ini')
 import subprocess as sp
 cmd = ['ffmpeg',
         '-re',
+        '-stream_loop',  '-1',
         '-i', config["VIDEO"]["file_location"],
        '-preset', 'ultrafast',
         '-vcodec', 'mpeg4',
@@ -42,6 +43,8 @@ def img_processing():
     # loop over frames from the video stream
     while True:
         frame = vs.read()
+        if not vs.grabbed:
+            continue
         # lock
         with lock:
             outputFrame = frame.copy()
