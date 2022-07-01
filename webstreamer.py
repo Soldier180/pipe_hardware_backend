@@ -1,4 +1,4 @@
-from imutils.video import VideoStream
+from videostream import WebcamVideoStream
 from flask import Response
 from flask import Flask
 import threading
@@ -33,7 +33,7 @@ outputFrame = None
 lock = threading.Lock()
 
 app = Flask(__name__)
-vs = VideoStream(src=config["VIDEO"]["stream_address"]).start()
+vs = WebcamVideoStream(src=config["VIDEO"]["stream_address"]).start()
 time.sleep(1.0)
 
 

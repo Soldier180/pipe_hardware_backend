@@ -1,5 +1,4 @@
 Flask>=2.1.1
-imutils>=0.5.4
 opencv-contrib-python>=4.5.4.58
 numpy>=1.22.4
 
