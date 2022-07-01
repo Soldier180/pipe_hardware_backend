@@ -4,18 +4,22 @@ from flask import Flask
 import threading
 import time
 import cv2
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 #config stream
 import subprocess as sp
 cmd = ['ffmpeg',
         '-re',
-        '-i', 'video_3.mp4',
+        '-i', config["VIDEO"]["file_location"],
        '-preset', 'ultrafast',
         '-vcodec', 'mpeg4',
        '-tune', 'zerolatency',
        '-b', '900k',
        '-f',  'h264',
-       'udp://127.0.0.1:23000']
+       config["VIDEO"]["stream_address"]]
 def start_stream():
     sp.run(cmd)
 
@@ -29,7 +33,7 @@ outputFrame = None
 lock = threading.Lock()
 
 app = Flask(__name__)
-vs = VideoStream(src='udp://127.0.0.1:23000').start()
+vs = VideoStream(src=config["VIDEO"]["stream_address"]).start()
 time.sleep(1.0)
 
 
@@ -77,6 +81,6 @@ if __name__ == '__main__':
     t.daemon = True
     t.start()
     # start the flask app
-    app.run(host='localhost', port=5000, debug=True, threaded=True, use_reloader=False)
+    app.run(host=config["WEB_STREAM"]["host"], port=int(config["WEB_STREAM"]["port"]), debug=True, threaded=True, use_reloader=False)
 # release the video stream pointer
 vs.stop()
