@@ -21,6 +21,18 @@ cmd = ['ffmpeg',
        '-b', '900k',
        '-f',  'h264',
        config["VIDEO"]["stream_address"]]
+
+
+# cmd = ['ffmpeg',
+#         '-f', 'dshow',#'-re',
+#         #'-stream_loop',  '-1',
+#         '-i', 'video=HD Camera',#config["VIDEO"]["file_location"],
+#        '-preset', 'ultrafast',
+#         '-vcodec', 'mpeg4',
+#        '-tune', 'zerolatency',
+#        '-b', '100k',
+#        '-f',  'h264',
+#        config["VIDEO"]["stream_address"]]
 def start_stream():
     sp.run(cmd)
 
@@ -87,3 +99,11 @@ if __name__ == '__main__':
     app.run(host=config["WEB_STREAM"]["host"], port=int(config["WEB_STREAM"]["port"]), debug=True, threaded=True, use_reloader=False)
 # release the video stream pointer
 vs.stop()
+
+
+
+# VIDSOURCE="rtsp://username:password@ip-address-of-camera:554/cam/realmonitor?channel=1&subtype=0"
+# AUDIO_OPTS="-c:a aac -b:a 160000 -ac 2"
+# VIDEO_OPTS="-s 854x480 -c:v libx264 -b:v 800000"
+# OUTPUT_HLS="-hls_time 10 -hls_list_size 10 -start_number 1"
+# ffmpeg -i video="HD Camera" -y -s 854x480 -c:v libx264 -b:v 800000 -hls_time 10 -hls_list_size 10 -start_number 1 mystream.m3u8
